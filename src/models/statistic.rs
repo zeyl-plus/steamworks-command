@@ -9,12 +9,15 @@ pub struct StatisticInfo {
 }
 
 impl StatisticInfo {
-    pub(crate) fn new(items: &QueryResults) -> Self {
-        let preview_url = items.preview_url(0).unwrap();
-        let favorites = items.statistic(0, UGCStatisticType::Favorites).unwrap();
-        let subscriptions = items.statistic(0, UGCStatisticType::Subscriptions).unwrap();
+    pub(crate) fn new(index: usize, items: &QueryResults) -> Self {
+        let index = index.try_into().unwrap();
+        let preview_url = items.preview_url(index).unwrap();
+        let favorites = items.statistic(index, UGCStatisticType::Favorites).unwrap();
+        let subscriptions = items
+            .statistic(index, UGCStatisticType::Subscriptions)
+            .unwrap();
         let views = items
-            .statistic(0, UGCStatisticType::UniqueWebsiteViews)
+            .statistic(index, UGCStatisticType::UniqueWebsiteViews)
             .unwrap();
         StatisticInfo {
             views: views,

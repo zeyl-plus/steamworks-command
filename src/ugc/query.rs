@@ -22,7 +22,7 @@ pub fn get_item(id: u64, client: Client, single: SingleClient) -> Result<ItemInf
     query.fetch(move |res| {
         let _ = tx.send(match res {
             Ok(item) => {
-                let statistics: StatisticInfo = StatisticInfo::new(&item);
+                let statistics: StatisticInfo = StatisticInfo::new(0, &item);
                 let data: ItemInfo = ItemInfo::new(statistics, item.get(0).expect("没有找到数据"));
                 // println!("数据信息: {:?}", data);
                 Ok(data)
@@ -57,9 +57,9 @@ pub fn get_items(
         let mut items_list = Vec::new();
         let send_result = match res {
             Ok(items) => {
-                for query in items.iter() {
+                for (index, query) in items.iter().enumerate() {
                     if let Some(item) = query {
-                        let statistics = StatisticInfo::new(&items);
+                        let statistics = StatisticInfo::new(index, &items);
                         items_list.push(ItemInfo::new(statistics, item));
                     }
                 }
@@ -99,10 +99,14 @@ pub fn get_all(
         let mut items_list = Vec::new();
         let send_result = match res {
             Ok(items) => {
-                for query in items.iter() {
-                    if let Some(item) = query {
-                        let statistics = StatisticInfo::new(&items);
-                        items_list.push(ItemInfo::new(statistics, item));
+                for (index, query) in items.iter().enumerate() {
+                    // println!(
+                    //     "数据信息: {:?}",
+                    //     items.preview_url(index.try_into().unwrap())
+                    // );
+                    if let Some(item_query) = query {
+                        let statistics = StatisticInfo::new(index, &items);
+                        items_list.push(ItemInfo::new(statistics, item_query));
                     }
                 }
                 Ok(Pagination {
