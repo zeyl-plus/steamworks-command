@@ -8,6 +8,7 @@ use models::args::{ActionType, Args};
 use std::io;
 use steamworks::Client;
 use ugc::{
+    action::{subscribe_item, unsubscribe_item},
     query::{get_all, get_item, get_items},
     state::{get_item_state, item_download_info},
 };
@@ -21,7 +22,7 @@ fn main() {
     println!("ITEM_IDs: {:?}", args.item_ids);
 
     // TEST ID
-    // 1843445119,2743616455
+    // 1791288541,1843445119,2743616455
     let (client, single) = Client::init_app(args.app_id).expect("Failed to initialize steamworks");
     match args.action {
         // 获取单个item
@@ -52,6 +53,16 @@ fn main() {
             println!("--------------get_item_state--------------");
             let res = get_item_state(args.item_ids[0], client.clone());
             let _ = serde_json::to_writer(io::stdout(), &res.ok());
+        }
+        ActionType::SubscribeItem => {
+            println!("--------------subscribe_item--------------");
+            let res = subscribe_item(args.item_ids[0], client.clone(), single);
+            let _ = serde_json::to_writer(io::stdout(), &res);
+        }
+        ActionType::UnsubscribeItem => {
+            println!("--------------unsubscribe_item--------------");
+            let res = unsubscribe_item(args.item_ids[0], client.clone(), single);
+            let _ = serde_json::to_writer(io::stdout(), &res);
         }
         // 判断游戏是否已安装
         ActionType::AppInstallInfo => {
