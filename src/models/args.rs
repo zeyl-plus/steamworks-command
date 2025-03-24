@@ -39,7 +39,8 @@ pub enum ActionType {
     SubscribeItem,
     SubscribedItems,
     UnsubscribeItem,
-    UnsubscribeItems,
+    DownloadItem,
+    Invalid,
 }
 
 impl ActionType {
@@ -55,8 +56,8 @@ impl ActionType {
             "subscribe_item" => ActionType::SubscribeItem,
             "subscribed_items" => ActionType::SubscribedItems,
             "unsubscribe_item" => ActionType::UnsubscribeItem,
-            "unsubscribe_items" => ActionType::UnsubscribeItems,
-            _ => ActionType::GetItem,
+            "download_item" => ActionType::DownloadItem,
+            _ => ActionType::Invalid,
         }
     }
 }

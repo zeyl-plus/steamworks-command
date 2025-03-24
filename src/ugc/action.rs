@@ -1,18 +1,8 @@
 use std::time::Duration;
 
-use serde::Serialize;
 use steamworks::{Client, PublishedFileId, SingleClient};
 
-use crate::utils::utils::wait_for_response;
-
-// 数据返回类型
-#[derive(Debug, Serialize)]
-pub struct DataResponse<T> {
-    pub(crate) code: i32,
-    pub(crate) result: T,
-    pub(crate) message: String,
-}
-
+use crate::utils::{response::DataResponse, utils::wait_for_response};
 // 订阅Item
 pub fn subscribe_item(id: u64, client: Client, single: SingleClient) -> DataResponse<u64> {
     let (tx, rx) = std::sync::mpsc::channel();
@@ -34,6 +24,20 @@ pub fn subscribe_item(id: u64, client: Client, single: SingleClient) -> DataResp
                 message: err,
             },
         })
+}
+// 获取订阅的Item ids
+pub fn subscribed_items(client: Client) -> DataResponse<Vec<u64>> {
+    let ids = client
+        .ugc()
+        .subscribed_items()
+        .iter()
+        .map(|id| id.0)
+        .collect();
+    DataResponse {
+        code: 0,
+        result: ids,
+        message: "成功".to_string(),
+    }
 }
 
 // 取消订阅
@@ -57,4 +61,14 @@ pub fn unsubscribe_item(id: u64, client: Client, single: SingleClient) -> DataRe
                 message: err,
             },
         })
+}
+
+// 下载item
+pub fn download_item(id: u64, client: Client) -> DataResponse<bool> {
+    let download = client.ugc().download_item(PublishedFileId(id), true);
+    DataResponse {
+        code: 0,
+        result: download,
+        message: "下载成功".to_string(),
+    }
 }
