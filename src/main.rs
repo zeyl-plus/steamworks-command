@@ -18,8 +18,9 @@ fn main() {
     // 获取参数
     let args = get_args(Args::parse());
 
-    println!("APP_ID: {}", args.app_id);
-    println!("ITEM_IDs: {:?}", args.item_ids);
+    // println!("APP_ID: {}", args.app_id);
+    // println!("ITEM_IDs: {:?}", args.item_ids);
+    // println!("ACTION: {:?}", args.action);
 
     // TEST ID
     // 1791288541,1843445119,2743616455
@@ -38,61 +39,61 @@ fn main() {
     match args.action {
         // 获取单个item
         ActionType::GetItem => {
-            println!("--------------get_item--------------");
+            // println!("--------------get_item--------------");
             let res = get_item(args.item_ids[0], client.clone(), single);
-            let _ = serde_json::to_writer(io::stdout(), &res.ok());
+            let _ = serde_json::to_writer(io::stdout(), &DataResponse::success(res.ok()));
         }
         // 获取多个item
         ActionType::GetItems => {
-            println!("--------------get_items--------------");
+            // println!("--------------get_items--------------");
             let res = get_items(args.item_ids, client.clone(), single);
-            let _ = serde_json::to_writer(io::stdout(), &res.ok());
+            let _ = serde_json::to_writer(io::stdout(), &DataResponse::success(res.ok()));
         }
         // 获取所有item
         ActionType::GetAll => {
-            println!("--------------get_all--------------");
+            // println!("--------------get_all--------------");
             let res = get_all(args.page, args.app_id, client.clone(), single);
-            let _ = serde_json::to_writer(io::stdout(), &res.ok());
+            let _ = serde_json::to_writer(io::stdout(), &DataResponse::success(res.ok()));
         }
         // 获取item下载信息
         ActionType::ItemDownloadInfo => {
-            println!("--------------item_download_info--------------");
+            // println!("--------------item_download_info--------------");
             let res = item_download_info(args.item_ids[0], client.clone());
-            let _ = serde_json::to_writer(io::stdout(), &res);
+            let _ = serde_json::to_writer(io::stdout(), &DataResponse::success(res));
         }
         // 获取item状态
         ActionType::GetItemState => {
-            println!("--------------get_item_state--------------");
+            // println!("--------------get_item_state--------------");
             let res = get_item_state(args.item_ids[0], client.clone());
-            let _ = serde_json::to_writer(io::stdout(), &res.ok());
+            let _ = serde_json::to_writer(io::stdout(), &DataResponse::success(res.ok()));
         }
         // 订阅item
         ActionType::SubscribeItem => {
-            println!("--------------subscribe_item--------------");
+            // println!("--------------subscribe_item--------------");
             let res = subscribe_item(args.item_ids[0], client.clone(), single);
             let _ = serde_json::to_writer(io::stdout(), &res);
         }
         // 取消订阅item
         ActionType::UnsubscribeItem => {
-            println!("--------------unsubscribe_item--------------");
+            // println!("--------------unsubscribe_item--------------");
             let res = unsubscribe_item(args.item_ids[0], client.clone(), single);
             let _ = serde_json::to_writer(io::stdout(), &res);
         }
         // 获取已订阅的item
         ActionType::SubscribedItems => {
-            println!("--------------subscribed_items--------------");
+            // println!("--------------subscribed_items--------------");
             let res = subscribed_items(client);
             let _ = serde_json::to_writer(io::stdout(), &res);
         }
         // 获取游戏安装信息
         ActionType::AppInstallInfo => {
-            println!("--------------app_install_info--------------");
+            // println!("--------------app_install_info--------------");
             let res = app_install_info(args.app_id, client.clone());
-            let _ = serde_json::to_writer(io::stdout(), &res);
+            let _ = serde_json::to_writer(io::stdout(), &DataResponse::success(res));
         }
         // 下载item
         ActionType::DownloadItem => {
-            println!("--------------download_item--------------");
+            // println!("--------------download_item--------------");
             let res = download_item(args.item_ids[0], client.clone());
             let _ = serde_json::to_writer(io::stdout(), &res);
         }

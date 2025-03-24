@@ -28,6 +28,8 @@ pub struct SteamArgs {
 }
 
 // 操作类型
+
+#[derive(Debug)]
 pub enum ActionType {
     GetItem,
     GetItems,

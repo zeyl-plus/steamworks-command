@@ -12,17 +12,9 @@ pub fn subscribe_item(id: u64, client: Client, single: SingleClient) -> DataResp
             tx.send(res.map(|_| id)).unwrap(); // 直接传递原始Result
         });
     wait_for_response(rx, single, 15, Duration::from_millis(100))
-        .map(|result| DataResponse {
-            code: 0,
-            result,
-            message: "订阅成功".to_string(),
-        })
+        .map(|result| DataResponse::new(0, result, "订阅成功"))
         .unwrap_or_else(|err| match err {
-            err => DataResponse {
-                code: -1,
-                result: id,
-                message: err,
-            },
+            err => DataResponse::error(id, err),
         })
 }
 // 获取订阅的Item ids
@@ -33,11 +25,7 @@ pub fn subscribed_items(client: Client) -> DataResponse<Vec<u64>> {
         .iter()
         .map(|id| id.0)
         .collect();
-    DataResponse {
-        code: 0,
-        result: ids,
-        message: "成功".to_string(),
-    }
+    DataResponse::success(ids)
 }
 
 // 取消订阅
@@ -49,26 +37,18 @@ pub fn unsubscribe_item(id: u64, client: Client, single: SingleClient) -> DataRe
             tx.send(res.map(|_| id)).unwrap(); // 直接传递原始Result
         });
     wait_for_response(rx, single, 15, Duration::from_millis(100))
-        .map(|result| DataResponse {
-            code: 0,
-            result,
-            message: "取消订阅成功".to_string(),
-        })
+        .map(|result| DataResponse::new(0, result, "取消订阅成功"))
         .unwrap_or_else(|err| match err {
-            err => DataResponse {
-                code: -1,
-                result: id,
-                message: err,
-            },
+            err => DataResponse::error(id, err),
         })
 }
 
 // 下载item
 pub fn download_item(id: u64, client: Client) -> DataResponse<bool> {
     let download = client.ugc().download_item(PublishedFileId(id), true);
-    DataResponse {
-        code: 0,
-        result: download,
-        message: "下载成功".to_string(),
+    if download {
+        DataResponse::new(0, download, "下载成功")
+    } else {
+        DataResponse::error(download, "下载失败")
     }
 }
