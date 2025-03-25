@@ -52,7 +52,6 @@ impl ActionType {
             "get_items" => ActionType::GetItems,
             "get_all" => ActionType::GetAll,
             "app_install_info" => ActionType::AppInstallInfo,
-            "item_install_info" => ActionType::ItemInstallInfo,
             "item_download_info" => ActionType::ItemDownloadInfo,
             "get_item_state" => ActionType::GetItemState,
             "subscribe_item" => ActionType::SubscribeItem,

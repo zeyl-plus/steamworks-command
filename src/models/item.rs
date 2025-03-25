@@ -8,10 +8,11 @@ pub struct ItemInfo {
     // 统计信息
     pub views: u64,
     pub subscriptions: u64,
-    pub favorites: u64,
+    pub favorited: u64,
     pub preview_url: String,
     // QueryResult属性
-    pub published_file_id: u64,
+    pub id: u64,
+    pub publishedfileid: u64,
     pub title: String,
     pub description: String,
     pub tags: String,
@@ -33,9 +34,10 @@ impl ItemInfo {
         ItemInfo {
             views: stat.views,
             subscriptions: stat.subscriptions,
-            favorites: stat.favorites,
+            favorited: stat.favorited,
             preview_url: stat.preview_url,
-            published_file_id: result.published_file_id.0,
+            id: result.published_file_id.0,
+            publishedfileid: result.published_file_id.0,
             title: result.title,
             // description: "".to_string(),
             description: result.description,
