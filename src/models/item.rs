@@ -56,9 +56,3 @@ pub struct Pagination<T> {
     pub total: u32,
     pub items: T,
 }
-
-// impl ItemList {
-//     pub(crate) fn new(list: ItemList) -> Self {
-//         list
-//     }
-// }

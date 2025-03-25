@@ -1,6 +1,8 @@
 use serde::Serialize;
 use steamworks::{AppId, Client};
 
+use crate::utils::response::DataResponse;
+
 #[derive(Debug, Serialize)]
 pub struct AppInstallInfo {
     pub(crate) id: u32,
@@ -12,7 +14,7 @@ pub struct AppInstallInfo {
 }
 
 // 获取游戏安装信息
-pub fn app_install_info(app_id: u32, client: Client) -> AppInstallInfo {
+pub fn app_install_info(app_id: u32, client: Client) -> DataResponse<AppInstallInfo> {
     let id = AppId(app_id);
     let app = client.apps();
     let install_dir = app.app_install_dir(id);
@@ -20,12 +22,23 @@ pub fn app_install_info(app_id: u32, client: Client) -> AppInstallInfo {
     let language = app.current_game_language();
     let owner = app.app_owner();
     let build_id = app.app_build_id();
-    AppInstallInfo {
+    DataResponse::success(AppInstallInfo {
         id: app_id,
         install_dir,
         language,
         owner: owner.raw(),
         installed,
         build_id,
+    })
+}
+
+// 启动游戏
+pub fn app_start(client: Client) -> DataResponse<String> {
+    let start = client.apps().launch_command_line();
+    println!("{:?}", start);
+    if start.is_empty() {
+        DataResponse::error(start, "启动失败")
+    } else {
+        DataResponse::new(0, start, "启动成功")
     }
 }

@@ -1,5 +1,7 @@
 use std::{thread, time::Duration};
 
+use base64::{Engine as _, engine::general_purpose};
+
 use steamworks::SingleClient;
 
 pub fn clear() {
@@ -33,4 +35,9 @@ pub fn wait_for_response<T>(
         thread::sleep(sleep_duration);
     }
     Err("获取数据超时".to_string())
+}
+
+// 将字节数组转换为base64字符串
+pub fn to_base64(data: Vec<u8>) -> String {
+    general_purpose::STANDARD.encode(&data)
 }
