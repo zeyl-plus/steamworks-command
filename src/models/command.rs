@@ -3,7 +3,7 @@ use clap::{Parser, Subcommand};
 #[derive(Parser)]
 #[command(name = "steam-cli")]
 #[command(version = "0.1.0")]
-#[command(about = "Steamworks Cli工具", long_about = None)]
+#[command(about = "Steamworks Cli Tool", long_about = None)]
 pub struct Cli {
     #[command(subcommand)]
     pub command: Commands,

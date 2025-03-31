@@ -2,9 +2,11 @@
 name = "steamworks-command"
 version = "0.1.0"
 edition = "2024"
+build = "build.rs"
 
 [dependencies]
-steamworks = "0.11.0"
+# steamworks = "0.11.0"
+steamworks = { path = "./steamworks-rs" }
 tokio = { version = "1.44.1", features = ["full"] }
 serde = { version = "1.0", features = ["derive"] }
 clap = { version = "4.0", features = ["derive"] }

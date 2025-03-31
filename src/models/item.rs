@@ -30,7 +30,7 @@ impl ItemInfo {
             .map(|tag| tag.to_string())
             .collect::<Vec<_>>()
             .join(",");
-
+        // println!("{:?}", result);
         ItemInfo {
             views: stat.views,
             subscriptions: stat.subscriptions,
@@ -52,7 +52,12 @@ impl ItemInfo {
 
 #[derive(Debug, Serialize)]
 pub struct Pagination<T> {
+    // 当前页
     pub page: u32,
+    // 每页数量
+    pub size: u32,
+    // 总数
     pub total: u32,
+    // 数据
     pub items: T,
 }

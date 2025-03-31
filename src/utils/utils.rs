@@ -1,8 +1,7 @@
 use std::{thread, time::Duration};
 
 use base64::{Engine as _, engine::general_purpose};
-
-use steamworks::SingleClient;
+use steamworks::Client;
 
 pub fn clear() {
     unsafe {
@@ -14,7 +13,7 @@ pub fn clear() {
 // 等待操作响应
 pub fn wait_for_response<T>(
     rx: std::sync::mpsc::Receiver<Result<T, steamworks::SteamError>>,
-    single: SingleClient,
+    single: Client,
     max_retries: usize,
     sleep_duration: Duration,
 ) -> Result<T, String> {

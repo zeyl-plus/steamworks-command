@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use steamworks::{AppIDs, AppId, Client, PublishedFileId, SingleClient, UGCQueryType, UGCType};
+use steamworks::{AppIDs, AppId, Client, PublishedFileId, UGCQueryType, UGCType};
 
 use crate::{
     models::{
@@ -11,7 +11,7 @@ use crate::{
 };
 
 // 获取单个Item数据
-pub fn get_item(id: u64, client: Client, single: SingleClient) -> Result<ItemInfo, String> {
+pub fn get_item(id: u64, client: Client) -> Result<ItemInfo, String> {
     let (tx, rx) = std::sync::mpsc::channel();
 
     let query = client
@@ -23,7 +23,8 @@ pub fn get_item(id: u64, client: Client, single: SingleClient) -> Result<ItemInf
         let _ = tx.send(match res {
             Ok(item) => {
                 let statistics: StatisticInfo = StatisticInfo::new(0, &item);
-                let data: ItemInfo = ItemInfo::new(statistics, item.get(0).expect("没有找到数据"));
+                let item = item.get(0).expect("没有找到数据");
+                let data: ItemInfo = ItemInfo::new(statistics, item);
                 // println!("数据信息: {:?}", data);
                 Ok(data)
             }
@@ -33,15 +34,11 @@ pub fn get_item(id: u64, client: Client, single: SingleClient) -> Result<ItemInf
             }
         });
     });
-    wait_for_response(rx, single, 15, Duration::from_millis(100))
+    wait_for_response(rx, client, 15, Duration::from_millis(100))
 }
 
 // 获取多个Item数据
-pub fn get_items(
-    ids: Vec<u64>,
-    client: Client,
-    single: SingleClient,
-) -> Result<Vec<ItemInfo>, String> {
+pub fn get_items(ids: Vec<u64>, client: Client) -> Result<Vec<ItemInfo>, String> {
     let (tx, rx) = std::sync::mpsc::channel();
     let query = client
         .ugc()
@@ -73,7 +70,7 @@ pub fn get_items(
         let _ = tx.send(send_result);
     });
 
-    wait_for_response(rx, single, 15, Duration::from_millis(100))
+    wait_for_response(rx, client, 15, Duration::from_millis(100))
 }
 
 // 分页获取所有Item数据
@@ -81,18 +78,17 @@ pub fn get_all(
     page: u32,
     app_id: u32,
     client: Client,
-    single: SingleClient,
 ) -> Result<Pagination<Vec<ItemInfo>>, String> {
     let (tx, rx) = std::sync::mpsc::channel();
     let query = client
         .ugc()
         .query_all(
             UGCQueryType::RankedByVote,
-            UGCType::Items,
+            UGCType::ItemsReadyToUse,
             AppIDs::CreatorAppId(AppId(app_id)),
             page,
         )
-        .expect("Failed to query items")
+        .expect("Failed to query all")
         .include_long_desc(true);
 
     query.fetch(move |res| {
@@ -101,8 +97,9 @@ pub fn get_all(
             Ok(items) => {
                 for (index, query) in items.iter().enumerate() {
                     // println!(
-                    //     "数据信息: {:?}",
-                    //     items.preview_url(index.try_into().unwrap())
+                    //     "数据信息({:?}): {:?}",
+                    //     index,
+                    //     items.get(index.try_into().unwrap()).unwrap().title
                     // );
                     if let Some(item_query) = query {
                         let statistics = StatisticInfo::new(index, &items);
@@ -111,6 +108,7 @@ pub fn get_all(
                 }
                 Ok(Pagination {
                     page,
+                    size: items.returned_results(),
                     total: items.total_results(),
                     items: items_list,
                 })
@@ -123,5 +121,5 @@ pub fn get_all(
         let _ = tx.send(send_result);
     });
 
-    wait_for_response(rx, single, 15, Duration::from_millis(100))
+    wait_for_response(rx, client, 15, Duration::from_millis(100))
 }

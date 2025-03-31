@@ -1,6 +1,6 @@
 use std::io;
 
-use steamworks::{Client, SingleClient};
+use steamworks::Client;
 
 use crate::{
     models::command::UGCCommands,
@@ -13,20 +13,20 @@ use crate::{
 };
 
 // 处理UGC命令
-pub fn handle_ugc_commands(action: &UGCCommands, client: Client, single: SingleClient) {
+pub fn handle_ugc_commands(action: &UGCCommands, client: Client) {
     match action {
         UGCCommands::Item { id } => {
-            let res = get_item(*id, client.clone(), single);
+            let res = get_item(*id, client.clone());
             let _ = serde_json::to_writer(io::stdout(), &DataResponse::success(res.ok()));
         }
         UGCCommands::Items { ids } => {
             let ids: Vec<u64> = ids.split(',').map(|s| s.parse::<u64>().unwrap()).collect();
-            let res = get_items(ids.clone(), client.clone(), single);
+            let res = get_items(ids.clone(), client.clone());
             let _ = serde_json::to_writer(io::stdout(), &DataResponse::success(res.ok()));
         }
         UGCCommands::All { page } => {
             let app = client.utils().app_id().0;
-            let res = get_all(*page, app, client.clone(), single);
+            let res = get_all(*page, app, client.clone());
             let _ = serde_json::to_writer(io::stdout(), &DataResponse::success(res.ok()));
         }
         UGCCommands::DownloadInfo { id } => {
@@ -38,7 +38,7 @@ pub fn handle_ugc_commands(action: &UGCCommands, client: Client, single: SingleC
             let _ = serde_json::to_writer(io::stdout(), &DataResponse::success(res.ok()));
         }
         UGCCommands::Subscribe { id } => {
-            let res = subscribe_item(*id, client.clone(), single);
+            let res = subscribe_item(*id, client.clone());
             let _ = serde_json::to_writer(io::stdout(), &res);
         }
         UGCCommands::Subscribed => {
@@ -46,7 +46,7 @@ pub fn handle_ugc_commands(action: &UGCCommands, client: Client, single: SingleC
             let _ = serde_json::to_writer(io::stdout(), &res);
         }
         UGCCommands::Unsubscribe { id } => {
-            let res = unsubscribe_item(*id, client.clone(), single);
+            let res = unsubscribe_item(*id, client.clone());
             let _ = serde_json::to_writer(io::stdout(), &res);
         }
         UGCCommands::Download { id } => {
