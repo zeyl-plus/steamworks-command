@@ -18,14 +18,22 @@ pub fn get_item(id: u64, client: Client) -> Result<ItemInfo, String> {
         .ugc()
         .query_item(PublishedFileId(id))
         .expect("Failed to query item")
+        .include_children(true)
         .include_long_desc(true);
     query.fetch(move |res| {
         let _ = tx.send(match res {
             Ok(item) => {
                 let statistics: StatisticInfo = StatisticInfo::new(0, &item);
-                let item = item.get(0).expect("没有找到数据");
-                let data: ItemInfo = ItemInfo::new(statistics, item);
-                // println!("数据信息: {:?}", data);
+                let item_data = item.get(0).expect("没有找到数据");
+                // 子项（合集下面的子项）
+                let children: Vec<u64> = item
+                    .get_children(0)
+                    .expect("获取子项数据失败")
+                    .iter()
+                    .map(|i| i.0)
+                    .collect();
+                // println!("数据信息: {:?}", children);
+                let data: ItemInfo = ItemInfo::new(statistics, item_data).set_children(children);
                 Ok(data)
             }
             Err(err) => {

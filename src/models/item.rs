@@ -18,6 +18,7 @@ pub struct ItemInfo {
     pub tags: String,
     pub file_size: u32,
     pub score: f32,
+    pub children: Option<Vec<u64>>,
     pub time_created: u32,
     pub time_updated: u32,
 }
@@ -31,6 +32,7 @@ impl ItemInfo {
             .collect::<Vec<_>>()
             .join(",");
         // println!("{:?}", result);
+        // let children = children.unwrap_or(vec![]);
         ItemInfo {
             views: stat.views,
             subscriptions: stat.subscriptions,
@@ -43,10 +45,16 @@ impl ItemInfo {
             description: result.description,
             score: result.score,
             tags,
+            children: None,
             file_size: result.file_size,
             time_created: result.time_created,
             time_updated: result.time_updated,
         }
+    }
+    // 设置子项
+    pub(crate) fn set_children(mut self, children: Vec<u64>) -> Self {
+        self.children = Some(children.clone());
+        self
     }
 }
 
