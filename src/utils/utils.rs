@@ -13,16 +13,16 @@ pub fn clear() {
 // 等待操作响应
 pub fn wait_for_response<T>(
     rx: std::sync::mpsc::Receiver<Result<T, steamworks::SteamError>>,
-    single: Client,
+    client: Client,
     max_retries: usize,
     sleep_duration: Duration,
 ) -> Result<T, String> {
     for _ in 0..max_retries {
-        single.run_callbacks();
+        client.run_callbacks();
         match rx.try_recv() {
             Ok(Ok(res)) => {
                 drop(rx);
-                drop(single);
+                drop(client);
                 crate::utils::utils::clear();
                 return Ok(res);
             }
