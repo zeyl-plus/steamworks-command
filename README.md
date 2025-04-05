@@ -103,6 +103,9 @@ steamworks-command --appid <APP_ID> app info
 - 运行该工具前需要打开 Steam
 - 该工具仅支持 Windows 操作系统
 - 该工具仅支持 Steamworks API 的部分功能
+- 该工具需要在 steam_api64.dll 文件（build 时会自动打包到目标目录）所在目录下运行
+- 本项目使用 Steamworks-rs 版本为最新 master(当前日期:2025/04/06)，并且有修改（修复了 file_size 显示问题，及在最新 steam sdk 上无法运行的问题）
+- Steam SDK 下载地址：https://partner.steamgames.com/doc/sdk
 
 ## 许可证
 
@@ -111,3 +114,7 @@ steamworks-command --appid <APP_ID> app info
 ## 技术支持
 
 遇到问题请提交 [GitHub Issue](https://gitcode.com/zeyl/steamworks-command/issues)
+
+## 鸣谢
+
+- [Steamworks-rs](https://github.com/Noxime/steamworks-rs)
