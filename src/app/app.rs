@@ -31,14 +31,3 @@ pub fn app_install_info(app_id: u32, client: Client) -> DataResponse<AppInstallI
         build_id,
     })
 }
-
-// 启动游戏
-pub fn app_start(client: Client) -> DataResponse<String> {
-    let start = client.apps().launch_command_line();
-    println!("{:?}", start);
-    if start.is_empty() {
-        DataResponse::error(start, "启动失败")
-    } else {
-        DataResponse::new(0, start, "启动成功")
-    }
-}

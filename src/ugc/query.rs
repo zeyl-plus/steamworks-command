@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use steamworks::{AppIDs, AppId, Client, PublishedFileId, SteamError, UGCQueryType, UGCType};
+use steamworks::{AppIDs, AppId, Client, PublishedFileId, UGCQueryType, UGCType};
 
 use crate::{
     models::{

@@ -3,13 +3,13 @@ use clap::{Parser, Subcommand};
 #[derive(Parser)]
 #[command(name = "steamworks-command")]
 #[command(version = "0.1.0")]
-#[command(about = "Steamworks Cli Tool", long_about = None)]
+#[command(about = "Steamworks Command Tool / Steamworks命令行工具", long_about = None)]
 pub struct Cli {
     #[command(subcommand)]
     pub command: Commands,
 
     /// APPID | 应用ID
-    #[arg(short, long, default_value_t = 0)]
+    #[arg(short, long, default_value_t = 480)]
     pub appid: u32,
 }
 
@@ -47,8 +47,6 @@ pub enum UserCommands {
 pub enum AppCommands {
     /// 获取应用信息
     Info,
-    /// 启动游戏
-    Start,
 }
 
 // UGC相关命令
