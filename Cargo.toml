@@ -1,11 +1,14 @@
 [package]
 name = "steamworks-command"
 version = "0.1.0"
+authors = ["Zeyl"]
+description = "steamworks command line tool"
+license = "MIT"
+repository = "https://gitcode.com/zeyl/steamworks-command"
 edition = "2024"
 build = "build.rs"
 
 [dependencies]
-# steamworks = "0.11.0"
 steamworks = { path = "./steamworks-rs" }
 tokio = { version = "1.44.1", features = ["full"] }
 serde = { version = "1.0", features = ["derive"] }

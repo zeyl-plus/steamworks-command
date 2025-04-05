@@ -32,7 +32,6 @@ impl ItemInfo {
             .collect::<Vec<_>>()
             .join(",");
         // println!("{:?}", result);
-        // let children = children.unwrap_or(vec![]);
         ItemInfo {
             views: stat.views,
             subscriptions: stat.subscriptions,
@@ -41,7 +40,6 @@ impl ItemInfo {
             id: result.published_file_id.0,
             publishedfileid: result.published_file_id.0,
             title: result.title,
-            // description: "".to_string(),
             description: result.description,
             score: result.score,
             tags,
