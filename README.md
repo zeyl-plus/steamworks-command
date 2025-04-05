@@ -1,8 +1,9 @@
 # Steamworks Command Line Tool
 
+[![Version](https://img.shields.io/badge/Version-0.1.0-green.svg)](https://gitcode.com/zeyl/steamworks-command)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-一个基于 Steamworks RS 的命令行工具，提供 Steamworks API 的便捷访问接口，主要用于管理用户生成内容(UGC)、用户数据、应用信息。
+一个基于 Steamworks RS 的命令行工具，提供 Steamworks API 的便捷访问接口，主要用于管理用户生成内容(如：MOD、MOD 合集等)。
 
 ## 安装指南
 
@@ -96,6 +97,12 @@ steamworks-command --appid <APP_ID> app info
 3. 提交修改 (`git commit -am 'Add awesome feature'`)
 4. 推送分支 (`git push origin feature/awesome-feature`)
 5. 创建 Pull Request
+
+## 注意事项
+
+- 运行该工具前需要打开 Steam
+- 该工具仅支持 Windows 操作系统
+- 该工具仅支持 Steamworks API 的部分功能
 
 ## 许可证
 

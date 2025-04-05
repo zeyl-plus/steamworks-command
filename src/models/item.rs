@@ -31,7 +31,6 @@ impl ItemInfo {
             .map(|tag| tag.to_string())
             .collect::<Vec<_>>()
             .join(",");
-        // println!("{:?}", result);
         ItemInfo {
             views: stat.views,
             subscriptions: stat.subscriptions,

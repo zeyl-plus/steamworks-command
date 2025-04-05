@@ -104,11 +104,6 @@ pub fn get_all(
         let send_result = match res {
             Ok(items) => {
                 for (index, query) in items.iter().enumerate() {
-                    // println!(
-                    //     "数据信息({:?}): {:?}",
-                    //     index,
-                    //     items.get(index.try_into().unwrap()).unwrap().title
-                    // );
                     if let Some(item_query) = query {
                         let statistics = StatisticInfo::new(index, &items);
                         items_list.push(ItemInfo::new(statistics, item_query));
