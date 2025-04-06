@@ -27,7 +27,7 @@ cargo build --release
 
 ```bash
 # 查询UGC内容
-steamworks-command --appid 779340 ugc item --id 1843445119
+./steamworks-command.exe --appid 779340 ugc item --id 1843445119
 ```
 
 ## 使用文档
@@ -55,37 +55,37 @@ Options:
 
 ```bash
 # 获取单个UGC项目详情
-steamworks-command ugc item --id <UGC_ID>
+./steamworks-command.exe ugc item --id <UGC_ID>
 # 批量获取UGC项目
-steamworks-command ugc items --id <ID1>,<ID2>,<ID3>
+./steamworks-command.exe ugc items --id <ID1>,<ID2>,<ID3>
 # 分页查询所有UGC项目
-steamworks-command --appid <APP_ID> ugc all --page 1
+./steamworks-command.exe --appid <APP_ID> ugc all --page 1
 # 获取UGC项目状态
-steamworks-command ugc state --id <UGC_ID>
+./steamworks-command.exe ugc state --id <UGC_ID>
 # 下载UGC内容
-steamworks-command ugc download --id <UGC_ID>
+./steamworks-command.exe ugc download --id <UGC_ID>
 # 下载UGC信息
-steamworks-command ugc download-info --id <UGC_ID>
+./steamworks-command.exe ugc download-info --id <UGC_ID>
 # 管理内容订阅
-steamworks-command ugc subscribe --id <UGC_ID>
-steamworks-command ugc unsubscribe --id <UGC_ID>
-steamworks-command --appid <APP_ID> ugc subscribed
+./steamworks-command.exe ugc subscribe --id <UGC_ID>
+./steamworks-command.exe ugc unsubscribe --id <UGC_ID>
+./steamworks-command.exe --appid <APP_ID> ugc subscribed
 ```
 
 ### 用户操作
 
 ```bash
 # 获取当前用户信息
-steamworks-command user info
+./steamworks-command.exe user info
 # 查询好友列表
-steamworks-command user friends
+./steamworks-command.exe user friends
 ```
 
 ### 应用操作
 
 ```bash
 # 获取应用基本信息
-steamworks-command --appid <APP_ID> app info
+./steamworks-command.exe --appid <APP_ID> app info
 ```
 
 ## 开发贡献
