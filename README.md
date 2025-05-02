@@ -3,6 +3,8 @@
 [![Version](https://img.shields.io/badge/Version-0.1.0-green.svg)](https://gitcode.com/zeyl/steamworks-command)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+> 注意：本项目在gitcode上更新，github非最新版，前往：[GitCode](https://gitcode.com/zeyl/steamworks-command)
+
 一个基于 Steamworks RS 的命令行工具，提供 Steamworks API 的便捷访问接口，主要用于管理用户生成内容(如：MOD、MOD 合集等)。
 
 ## 安装指南
